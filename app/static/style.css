@@ -1,0 +1,62 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+  color: #1b1f24;
+}
+.topbar {
+  background: #16181d;
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.topbar .brand { color: #fff; text-decoration: none; font-weight: 600; }
+.topbar .tag { color: #9aa4b2; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+.panel {
+  background: #fff;
+  border: 1px solid #e3e6ea;
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+h1 { font-size: 20px; margin-top: 0; }
+h2 { font-size: 16px; }
+.muted { color: #6b7280; font-size: 13px; }
+textarea { width: 100%; font-family: inherit; font-size: 14px; padding: 10px; border: 1px solid #d0d5dd; border-radius: 6px; }
+button {
+  margin-top: 10px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+button.approve { background: #16a34a; }
+button.reject { background: #dc2626; }
+form.inline { display: inline-block; margin-right: 8px; }
+table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #eef0f2; vertical-align: top; }
+code { background: #f1f3f5; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+.pass { color: #16a34a; font-weight: 600; }
+.fail { color: #dc2626; font-weight: 600; }
+.mode-deterministic { color: #2563eb; font-weight: 600; }
+.mode-agentic { color: #9333ea; font-weight: 600; }
+tr.agentic-row { background: #faf5ff; }
+.reasoning { color: #6b21a8; font-size: 12px; margin-top: 4px; }
+.error { color: #dc2626; font-size: 12px; margin-top: 4px; }
+.promo { border: 1px solid #e3e6ea; border-radius: 6px; padding: 12px 16px; margin-bottom: 12px; }
+.promo-approved { border-color: #16a34a; background: #f0fdf4; }
+.promo-rejected { border-color: #dc2626; background: #fef2f2; opacity: 0.75; }
+
+/* target app (kept visually distinct so it's obvious it's the app-under-test) */
+body.target-app { max-width: 480px; margin: 60px auto; font-family: Georgia, serif; background: #fff; }
+body.target-app h1 { border-bottom: 2px solid #222; padding-bottom: 8px; }
+body.target-app form { display: flex; flex-direction: column; gap: 10px; max-width: 260px; }
+body.target-app input { padding: 8px; font-size: 14px; }
+body.target-app button { align-self: flex-start; }

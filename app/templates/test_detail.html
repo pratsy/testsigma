@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Test {{ test.test_id }}{% endblock %}
+{% block content %}
+<section class="panel">
+  <p><a href="/">&larr; back</a></p>
+  <h1>{{ test.intent }}</h1>
+  <p class="muted">test_id: {{ test.test_id }} &middot; compiled {{ test.created_at[:19] }}</p>
+
+  <table>
+    <thead><tr><th>#</th><th>Action</th><th>Selector</th><th>Value</th><th>Expected outcome</th></tr></thead>
+    <tbody>
+      {% for s in test.steps %}
+      <tr>
+        <td>{{ s.order }}</td>
+        <td><code>{{ s.action }}</code></td>
+        <td><code>{{ s.selector or "-" }}</code></td>
+        <td>{{ s.value or "-" }}</td>
+        <td>{{ s.expected }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <form method="post" action="/tests/{{ test.test_id }}/run">
+    <button type="submit">Run test</button>
+  </form>
+</section>
+
+<section class="panel">
+  <h2>Run history</h2>
+  {% if runs %}
+  <table>
+    <thead><tr><th>Run</th><th>Result</th><th>Started</th><th></th></tr></thead>
+    <tbody>
+      {% for r in runs %}
+      <tr>
+        <td>{{ r.run_id }}</td>
+        <td>{% if r.overall_success %}<span class="pass">PASS</span>{% else %}<span class="fail">FAIL</span>{% endif %}</td>
+        <td>{{ r.started_at[:19] }}</td>
+        <td><a href="/runs/{{ r.run_id }}">View trace</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No runs yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

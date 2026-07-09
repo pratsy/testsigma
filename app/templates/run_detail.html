@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Run {{ run.run_id }}{% endblock %}
+{% block content %}
+<section class="panel">
+  <p><a href="/tests/{{ test.test_id }}">&larr; back to test</a></p>
+  <h1>Run {{ run.run_id }}
+    {% if run.overall_success %}<span class="pass">PASS</span>{% else %}<span class="fail">FAIL</span>{% endif %}
+  </h1>
+  <p class="muted">"{{ test.intent }}" &middot; started {{ run.started_at[:19] }}</p>
+
+  <h2>Decision trace</h2>
+  <p class="muted">What happened, per step, in a form a release manager or CTO can read without touching code.</p>
+  <table class="trace">
+    <thead>
+      <tr><th>#</th><th>Mode</th><th>Action</th><th>Selector used</th><th>Outcome</th><th>Latency</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      {% for s in run.steps %}
+      <tr class="{{ 'agentic-row' if s.mode == 'agentic' else '' }}">
+        <td>{{ s.order }}</td>
+        <td><span class="mode-{{ s.mode }}">{{ s.mode }}</span></td>
+        <td><code>{{ s.action }}</code></td>
+        <td><code>{{ s.selector_used or "-" }}</code></td>
+        <td>{% if s.success %}<span class="pass">success</span>{% else %}<span class="fail">failed</span>{% endif %}</td>
+        <td>{{ "%.0f"|format(s.latency_ms) }} ms</td>
+        <td>
+          {{ s.customer_narrative }}
+          {% if s.agent_reasoning %}<div class="reasoning">Agent reasoning: {{ s.agent_reasoning }}</div>{% endif %}
+          {% if s.error %}<div class="error">Error: {{ s.error }}</div>{% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+{% if promotions %}
+<section class="panel">
+  <h2>Promotion candidates</h2>
+  <p class="muted">
+    The agent recovered from a failed step below. Approving a promotion rewrites the
+    deterministic test so the next run doesn't need the agent for this step again.
+  </p>
+  {% for p in promotions %}
+  <div class="promo promo-{{ p.status }}">
+    <p><code>{{ p.old_selector or "(missing)" }}</code> &rarr; <code>{{ p.new_selector }}</code> (<code>{{ p.new_action }}</code>{% if p.new_value %}, value "{{ p.new_value }}"{% endif %})</p>
+    <p class="reasoning">{{ p.reasoning }}</p>
+    <p class="muted">status: {{ p.status }}</p>
+    {% if p.status == "pending" %}
+    <form method="post" action="/promotions/{{ p.promotion_id }}/approve" class="inline">
+      <button type="submit" class="approve">Approve &amp; promote to deterministic</button>
+    </form>
+    <form method="post" action="/promotions/{{ p.promotion_id }}/reject" class="inline">
+      <button type="submit" class="reject">Reject</button>
+    </form>
+    {% endif %}
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock %}

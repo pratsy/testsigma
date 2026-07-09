@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MiniCart - Orders</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body class="target-app">
+  <!--
+    NOTE for reviewers: this markup was intentionally reshaped relative to
+    app/target_app/reference_dom.py::ORDERS_PAGE_REFERENCE to simulate a
+    shipped UI change. #last-order-summary no longer exists; the order card
+    is now a <article class="recent-order-card"> with different internal
+    structure. A deterministic step written against the old selector will
+    fail here on purpose.
+  -->
+  <section class="orders-page-v2">
+    <h1>Recent Orders</h1>
+    <article class="recent-order-card">
+      <p class="order-meta">#1042 &middot; Delivered</p>
+      <p class="order-title">Wireless Mouse</p>
+    </article>
+  </section>
+</body>
+</html>

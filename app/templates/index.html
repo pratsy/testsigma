@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Capture a test{% endblock %}
+{% block content %}
+<section class="panel">
+  <h1>Capture a test from intent</h1>
+  <p class="muted">
+    Describe what you want verified in plain English. It will be compiled into a
+    structured, deterministic test against the MiniCart demo app.
+  </p>
+  <form method="post" action="/tests">
+    <textarea name="intent" rows="3" placeholder="e.g. Log in as a returning user and verify the order history page shows their last order" required>{{ default_intent }}</textarea>
+    <button type="submit">Compile test</button>
+  </form>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+</section>
+
+<section class="panel">
+  <h2>Tests</h2>
+  {% if tests %}
+  <table>
+    <thead><tr><th>Intent</th><th>Steps</th><th>Created</th><th></th></tr></thead>
+    <tbody>
+      {% for t in tests %}
+      <tr>
+        <td>{{ t.intent }}</td>
+        <td>{{ t.steps|length }}</td>
+        <td>{{ t.created_at[:19] }}</td>
+        <td><a href="/tests/{{ t.test_id }}">Open</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="muted">No tests yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
