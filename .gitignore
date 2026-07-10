@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+data/tests/*.json
+data/runs/*.json
+data/promotions/*.json
+!data/tests/.gitkeep
+!data/runs/.gitkeep
+!data/promotions/.gitkeep
